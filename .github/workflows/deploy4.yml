@@ -15,20 +15,20 @@ jobs:
     - name: Copy files to EC2
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
+        host: ${{ secrets.HOST_DNS }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         source: "."
-        target: "${{ secrets.EC2_PROJECT_PATH }}"
+        target: "${{ secrets.TARGET_DIR }}"
 
     - name: Run SSH Commands
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
+        host: ${{ secrets.HOST_DNS }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd ${{ secrets.EC2_PROJECT_PATH }}
+          cd ${{ secrets.TARGET_DIR }}
           sudo docker-compose down
           sudo docker-compose build --no-cache
           sudo docker-compose up -d
